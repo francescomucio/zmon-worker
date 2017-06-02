@@ -1,5 +1,5 @@
 [Core]
-Name = exacrm
+Name = exasol
 Module = exasol
 
 [Documentation]
@@ -16,7 +16,9 @@ Description = Builtin plugin that provides an http request check function.
 ;; key = valueX
 ;; Note valueX will be overridden if Zmon's global config has: plugin.{plugin_name}.{key} = valueY
 
+exasol_user = user
+exasol_pass = --secret--
+exasol_driver = --enter here path for the EXASOL driver --
+;; exasol_driver = /usr/me/projects/testodbc/lib/EXASolution_ODBC-5.0.18/lib/linux/x86_64/libexaodbc-uo2214lv2.so
+exasol_schema = EXA_STATISTICS
 
-exacrm_cluster = --secret--
-exacrm_user = user
-exacrm_pass = --secret--

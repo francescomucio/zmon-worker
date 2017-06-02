@@ -214,7 +214,7 @@ class TestPluginManager(unittest.TestCase):
                         'found at least 2 categories and they all belong to all defined categories')
 
         # check known test plugins are loaded
-        extra_plugins = ['exacrm', 'job_lock', 'nagios', 'snmp', 'mssql']  # non exhaustive list
+        extra_plugins = ['exasol', 'job_lock', 'nagios', 'snmp', 'mssql']  # non exhaustive list
         known_plugin_names = extra_plugins + ['http', 'color_spain', 'color_germany', 'temperature_fridge']
         plugin_names = plugin_manager.get_all_plugin_names()
         self.assertTrue(set(known_plugin_names).issubset(plugin_names), 'All known test plugins are loaded')
