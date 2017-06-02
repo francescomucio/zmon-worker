@@ -4,9 +4,8 @@
 Query Exasol
 """
 
-import tempfile
-import subprocess
-import os
+
+
 
 from zmon_worker_monitor.adapters.ifunctionfactory_plugin import IFunctionFactoryPlugin, propartial
 from turbodbc import connect
