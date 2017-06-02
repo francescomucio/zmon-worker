@@ -31,4 +31,5 @@ stups-tokens>=1.0.14
 subprocess32
 timeperiod2==0.1
 Yapsy>=1.10.423
+pybind11
 turbodbc>=1.1.2
