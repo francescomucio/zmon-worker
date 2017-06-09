@@ -7,7 +7,7 @@ Query Exasol
 from zmon_worker_monitor.adapters.ifunctionfactory_plugin import IFunctionFactoryPlugin, propartial
 from turbodbc import connect
 
-EXASOL_DRIVER_LOCATION = '/var/lib/zmon/exasol/cd gitlibexaodbc.so'
+EXASOL_DRIVER_LOCATION = '/var/lib/zmon/exasol/libexaodbc.so'
 
 
 class ExaplusFactory(IFunctionFactoryPlugin):
