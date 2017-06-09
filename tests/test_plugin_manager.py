@@ -233,8 +233,8 @@ class TestPluginManager(unittest.TestCase):
                             'plugin object is instance of IFunctionFactoryPlugin')
 
         # test extra plugin are configured according to config file
-        self.assertEqual(plugin_manager.get_plugin_obj_by_name('exasol', 'Function')._exasol_driver,
-                         '--path to EXASOL driver--', 'exasol object is configured')
+        self.assertEqual(plugin_manager.get_plugin_obj_by_name('exasol', 'Function')._exasol_pass,
+                         '--secret--', 'exasol object is configured')
 
     @patch.dict(os.environ, {'ZMON_PLUGINS': simple_plugin_dir_abs_path()})
     def test_global_config(self):

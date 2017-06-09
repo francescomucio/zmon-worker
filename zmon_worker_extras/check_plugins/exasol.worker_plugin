@@ -18,5 +18,4 @@ Description = Builtin plugin that provides an http request check function.
 
 exasol_user = user
 exasol_pass = --secret--
-exasol_schema = EXA_STATISTICS
 
