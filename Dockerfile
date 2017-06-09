@@ -2,8 +2,25 @@ FROM registry.opensource.zalan.do/stups/ubuntu:16.04-49
 
 #making this a cachable point as compile takes forever without -j
 
-RUN apt-get update && apt-get -y install python-pip python-dev libev4 libev-dev python-psycopg2 libpq-dev libldap2-dev libsasl2-dev libssl-dev libsnappy-dev iputils-ping && \
-    pip2 install -U pip setuptools urllib3 Cython
+RUN apt-get update && \
+    apt-get -y install iputils-ping \
+                       libboost-all-dev \
+                       libev4 \
+                       libev-dev \
+                       libldap2-dev \
+                       libpq-dev \
+                       libsasl2-dev \
+                       libsnappy-dev \
+                       libssl-dev \
+                       python-dev \
+                       python-pip \
+                       python-psycopg2 \
+                       unixodbc-dev && \
+    pip2 install -U pip Cython \
+                        setuptools \
+                        urllib3
+
+
 
 # make requests library use the Debian CA bundle (includes Zalando CA)
 ENV REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt

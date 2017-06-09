@@ -7,6 +7,7 @@ Query Exasol
 from zmon_worker_monitor.adapters.ifunctionfactory_plugin import IFunctionFactoryPlugin, propartial
 from turbodbc import connect
 
+EXASOL_DRIVER_LOCATION = '/var/lib/zmon/exasol/cd gitlibexaodbc.so'
 
 class ExaplusFactory(IFunctionFactoryPlugin):
     def __init__(self):
@@ -14,7 +15,6 @@ class ExaplusFactory(IFunctionFactoryPlugin):
         # fields from config
         self._exasol_user = None
         self._exasol_pass = None
-        self._exasol_driver = None
 
     def configure(self, conf):
         """
@@ -23,7 +23,6 @@ class ExaplusFactory(IFunctionFactoryPlugin):
         """
         self._exasol_user = conf['exasol_user']
         self._exasol_pass = conf['exasol_pass']
-        self._exasol_driver = conf['exasol_driver']
 
     def create(self, factory_ctx):
         """
@@ -31,54 +30,46 @@ class ExaplusFactory(IFunctionFactoryPlugin):
         :param factory_ctx: (dict) names available for Function instantiation
         :return: an object that implements a check function
         """
-        return propartial(ExaplusWrapper, cluster=factory_ctx['cluster'], password=self._exasol_pass,
-                          user=self._exasol_user, schema=factory_ctx['schema'],
-                          driver=self._exasol_driver)
+        return propartial(ExaplusWrapper, cluster=factory_ctx.get('cluster'), password=self._exasol_pass,
+                          user=self._exasol_user, schema=factory_ctx.get('schema'))
 
 
 class ExaplusWrapper(object):
-    def __init__(self, cluster, user='', password='', schema='', driver=''):
+    def __init__(self, cluster, user='', password='', schema=''):
         self._err = None
         self._out = None
         self.user = user
         self.__password = password
         self.cluster = cluster
         self.schema = schema
-        self.driver = driver
+        self.__driver = EXASOL_DRIVER_LOCATION
 
     def query(self, query):
-        try:
-            connection = connect(
-                driver=self.driver,
-                EXAHOST=self.cluster,
-                EXASCHEMA=self.schema,
-                EXAUID=self.user,
-                EXAPWD=self.__password)
-            cursor = connection.cursor()
+        connection = connect(
+            driver=self.__driver,
+            EXAHOST=self.cluster,
+            EXASCHEMA=self.schema,
+            EXAUID=self.user,
+            EXAPWD=self.__password
+        )
 
-            cursor.execute(query)
-            self._out = cursor
+        cursor = connection.cursor()
+        cursor.execute(query)
 
-        except Exception as err:
-            self._err = err
-
-        return self
-
-    def result(self):
         columns = []
         values = []
 
-        if self._out:
+        if cursor:
             # get_headers
-            for col in self._out.description:
+            for col in cursor.description:
                 columns.append(col[0])
 
             # get_values
             value = {}
 
-            for row in self._out:
+            for row in cursor:
                 for i, col in enumerate(columns):
                     value[col] = row[i]
                 values.append(value)
 
-        return values, self._err
+        return values
