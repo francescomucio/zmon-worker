@@ -9,6 +9,7 @@ from turbodbc import connect
 
 EXASOL_DRIVER_LOCATION = '/var/lib/zmon/exasol/cd gitlibexaodbc.so'
 
+
 class ExaplusFactory(IFunctionFactoryPlugin):
     def __init__(self):
         super(ExaplusFactory, self).__init__()
